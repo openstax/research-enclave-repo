@@ -1,0 +1,13 @@
+#!/bin/sh
+
+if [[ $# -ne 1 ]]; then
+    echo "usage:\n./runme <password>"
+    exit 1
+fi
+
+SCRIPT_DIR=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+
+docker run -d -p 8787:8787 --rm -v $SCRIPT_DIR/src:/home/rstudio -e PASSWORD=$1 nathanstitt/kinetic-enclave-test
+
+echo "When done stop container using: docker stop kinetic-enclave"
+open "http://localhost:8787"
